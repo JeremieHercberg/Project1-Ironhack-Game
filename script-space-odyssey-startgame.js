@@ -16,5 +16,3 @@ context.fillText(
   canvas.width / 2,
   canvas.height / 2 + 125
 );
-
-document.getElementById("button-play");

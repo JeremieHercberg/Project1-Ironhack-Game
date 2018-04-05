@@ -40,9 +40,3 @@ body {
 .title {
   text-align: center;
 }
-
-#button-play {
-  position: absolute;
-  top: 600px;
-  left: 100px;
-}
