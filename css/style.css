@@ -1,4 +1,48 @@
+body {
+  background: url("../images/background-image-index.png");
+  z-index: 4;
+}
+
 #canvas {
   background-image: url("../images/background.png");
-  border: 1px solid black;
+  border: 1px solid gainsboro;
+  z-index: 1;
+  position: absolute;
+  top: 150px;
+  left: 50px;
+}
+
+.container {
+  margin: 0 auto;
+  border: 1px solid gold;
+  display: inline-block;
+  z-index: 1000;
+  position: absolute;
+  left: 600px;
+  color: gainsboro;
+}
+
+.container-2 {
+  z-index: 150;
+  position: absolute;
+  left: 1100px;
+  top: 100px;
+  border: 1px solid orangered;
+  color: gainsboro;
+}
+
+.content {
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+}
+
+#button-play {
+  position: absolute;
+  top: 600px;
+  left: 100px;
 }

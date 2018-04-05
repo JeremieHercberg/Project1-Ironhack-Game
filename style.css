@@ -1,0 +1,19 @@
+body {
+  background-color: black;
+}
+
+#second-canvas {
+  background-image: url("images/background-image-index.png");
+  border: 1px solid darkgrey;
+  position: absolute;
+  top: 100px;
+  left: 125px;
+}
+
+input {
+  position: absolute;
+  top: 700px;
+  left: 700px;
+  background-color: whitesmoke;
+  border-radius: 3px;
+}
