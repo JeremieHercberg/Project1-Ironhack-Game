@@ -32,6 +32,22 @@ function shipCollision() {
   return hasCollided;
 }
 
+function explode() {
+  c.clearRect(0, 0, this.enemy_width, this.enemy_width);
+}
+
+function handleCollisions() {
+  playerBullets.forEach(function(bullet) {
+    enemyArray.forEach(function(enemy) {
+      if (collision(bullet, enemy)) {
+        console.log("hit");
+        //enemy.explode();
+        bullet.active = false;
+      }
+    });
+  });
+}
+
 var canvas = document.getElementById("canvas"),
   c = canvas.getContext("2d");
 var innerWidth = 800,
@@ -63,6 +79,8 @@ addEventListener("keydown", function(event) {
       player.y += -10;
     } else if (map[40]) {
       player.y += 10;
+    } else if (map[32]) {
+      player.shoot(); //bullet
     }
   }
   if (shipCollision()) {
@@ -106,6 +124,63 @@ player = {
     c.drawImage(player_img, this.x, this.y, this.width, this.height);
   }
 };
+
+// projectiles
+var playerBullets = [];
+
+function Bullet(I) {
+  I.active = true;
+  I.xVelocity = 0;
+  I.yVelocity = -I.speed; //
+  I.width = 3;
+  I.height = 3;
+  I.color = "#FFF";
+
+  I.inBounds = function() {
+    return I.x >= 0 && I.x <= canvas.width && I.y >= 0 && I.y <= canvas.height;
+  };
+
+  I.draw = function() {
+    c.fillStyle = this.color;
+    c.fillRect(this.x, this.y, this.width, this.height);
+  };
+
+  I.update = function() {
+    I.x += I.xVelocity;
+    I.y += I.yVelocity;
+
+    I.active = I.active && I.inBounds();
+  };
+  I.explode = function() {
+    this.active = false;
+  };
+
+  return I;
+}
+
+player.shoot = function() {
+  console.log("shoot");
+  var bulletPosition = this.midpoint();
+
+  playerBullets.push(
+    Bullet({
+      speed: 5,
+      x: bulletPosition.x,
+      y: bulletPosition.y
+    })
+  );
+};
+
+player.midpoint = function() {
+  return {
+    x: this.x + this.width / 2,
+    y: this.y + this.height / 2
+  };
+};
+
+function update() {}
+
+function draw() {}
 
 // Vilain
 var enemyArray = [],
@@ -210,7 +285,26 @@ function animate(currentTime) {
   // upadte vilain psoition
   enemyArray.forEach(function(enemy) {
     enemy.update();
+    //enemy.explode();
   });
+
+  //projectiles - update
+  playerBullets.forEach(function(bullet) {
+    bullet.update();
+  });
+
+  playerBullets = playerBullets.filter(function(bullet) {
+    return bullet.active;
+  });
+
+  //projectiles - draw
+  playerBullets.forEach(function(bullet) {
+    bullet.draw();
+  });
+
+  //enemy.explode();
+
+  handleCollisions();
 
   drawScore();
 }

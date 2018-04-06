@@ -14,6 +14,5 @@ input {
   position: absolute;
   top: 700px;
   left: 700px;
-  background-color: whitesmoke;
-  border-radius: 3px;
+  border-radius: 10px;
 }
