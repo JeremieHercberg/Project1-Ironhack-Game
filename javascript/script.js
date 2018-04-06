@@ -32,25 +32,28 @@ function shipCollision() {
   return hasCollided;
 }
 
-function explode() {
-  c.clearRect(0, 0, this.enemy_width, this.enemy_width);
-}
-
 function handleCollisions() {
-  playerBullets.forEach(function(bullet) {
-    enemyArray.forEach(function(enemy) {
+  var deadEnemies = [];
+  enemyArray.forEach(function(enemy, index) {
+    playerBullets.forEach(function(bullet) {
       if (collision(bullet, enemy)) {
         console.log("hit");
-        //enemy.explode();
+        enemy.explode();
         bullet.active = false;
+        deadEnemies.push(index);
       }
     });
+  });
+
+  deadEnemies.reverse();
+  deadEnemies.forEach(function(index) {
+    enemyArray.splice(index, 1);
   });
 }
 
 var canvas = document.getElementById("canvas"),
   c = canvas.getContext("2d");
-var innerWidth = 800,
+var innerWidth = 1000,
   innerHeight = 620;
 canvas.width = innerWidth;
 canvas.height = innerHeight;
@@ -202,7 +205,7 @@ function enemy(x, y, dx, dy, enemy_img, enemy_width, enemy_height, rotation) {
   this.height = enemy_height;
   this.rotation = rotation;
   enemyIndex++;
-  enemyArray[enemyIndex] = this;
+  enemyArray.push(this);
   this.id = enemyIndex;
 
   if (this.rotation < 0.2) {
@@ -224,19 +227,16 @@ function enemy(x, y, dx, dy, enemy_img, enemy_width, enemy_height, rotation) {
       this.dx = Math.abs(this.dx);
     }
 
-    if (this.y > innerHeight + this.height) {
-      this.delete();
-    }
-
     this.draw();
-  };
-
-  this.delete = function() {
-    delete enemyArray[this.id];
   };
 
   this.draw = function() {
     c.drawImage(this.img, this.x, this.y, this.width, this.height);
+  };
+
+  this.explode = function() {
+    c.clearRect(this.x, this.y, this.width, this.width);
+    score++;
   };
 }
 
@@ -265,7 +265,7 @@ function animate(currentTime) {
 
     c.font = "18px arial";
     c.fillStyle = "#fff";
-    c.fillText("SCORE: " + score++, 10, 22);
+    c.fillText("SCORE: " + score, 10, 22);
   }
 
   // Hero power
@@ -283,9 +283,18 @@ function animate(currentTime) {
   }
 
   // upadte vilain psoition
-  enemyArray.forEach(function(enemy) {
+  var deadEnemies = [];
+  enemyArray.forEach(function(enemy, index) {
     enemy.update();
     //enemy.explode();
+    if (enemy.y > innerHeight + enemy.height) {
+      deadEnemies.push(index);
+    }
+  });
+
+  deadEnemies.reverse();
+  deadEnemies.forEach(function(index) {
+    enemyArray.splice(index, 1);
   });
 
   //projectiles - update
@@ -309,3 +318,7 @@ function animate(currentTime) {
   drawScore();
 }
 animate();
+
+setInterval(function() {
+  console.log(enemyArray);
+}, 2000);

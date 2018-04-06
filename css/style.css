@@ -1,6 +1,7 @@
 body {
   background: url("../images/background-image-index.png");
   z-index: 4;
+  font-family: "Orbitron", sans-serif;
 }
 
 #canvas {
@@ -14,29 +15,45 @@ body {
 
 .container {
   margin: 0 auto;
-  border: 1px solid gold;
+  border: 2px solid gainsboro;
+  border-radius: 6px;
   display: inline-block;
   z-index: 1000;
   position: absolute;
-  left: 600px;
+  left: 550px;
   color: gainsboro;
+  background-color: rgba(168, 168, 168, 0.4);
 }
 
 .container-2 {
   z-index: 150;
   position: absolute;
   left: 1100px;
-  top: 100px;
-  border: 1px solid orangered;
+  top: 150px;
+  border: 2px solid gainsboro;
+  border-radius: 6px;
   color: gainsboro;
+  background-color: rgba(99, 99, 99, 0.6);
 }
 
 .content {
-  padding: 20px;
+  padding: 45px;
   margin: 0 auto;
   text-align: center;
+  line-height: 20px;
 }
 
 .title {
   text-align: center;
+  font-size: 50px;
+}
+
+.title-instructions {
+  font-size: 30px;
+  text-decoration: underline;
+}
+
+.title-commands {
+  font-size: 30px;
+  text-decoration: underline;
 }
